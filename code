@@ -1,0 +1,481 @@
+<!-- ══════════════════════════════════════════════
+     THAIS CORREA — CINEMATIC INTRO v2
+     Cole este bloco completo antes de </body>
+     ══════════════════════════════════════════════ -->
+
+<!-- 1. FONTES — cole no <head> -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;1,200;1,300&family=Montserrat:wght@100;200;300&display=swap" rel="stylesheet">
+
+<!-- 2. ESTILOS — cole no <head> ou arquivo CSS -->
+<style>
+:root {
+  --cream:    #F2E3D0;
+  --gold:     #C8A97E;
+  --crimson:  #7A0000;
+  --dark:     #0A0806;
+  --ease-silk: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-expo: cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+#tc-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--dark);
+  overflow: hidden;
+  pointer-events: all;
+  will-change: opacity, transform;
+}
+
+#tc-intro .grain {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.038;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 0.1s steps(1) infinite;
+  mix-blend-mode: screen;
+}
+@keyframes grain {
+  0%{transform:translate(0,0)}10%{transform:translate(-3%,-4%)}
+  20%{transform:translate(4%,2%)}30%{transform:translate(-2%,5%)}
+  40%{transform:translate(5%,-2%)}50%{transform:translate(-4%,3%)}
+  60%{transform:translate(3%,-5%)}70%{transform:translate(-5%,4%)}
+  80%{transform:translate(2%,-3%)}90%{transform:translate(4%,5%)}
+  100%{transform:translate(-3%,-2%)}
+}
+
+.tc-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  will-change: transform, filter, opacity;
+  opacity: 0;
+  filter: blur(22px) brightness(0.18) saturate(0.4);
+  transform: scale(1.12);
+  animation:
+    photoPhase1 2.8s var(--ease-silk) 0.3s forwards,
+    photoBreath 9s ease-in-out 5s infinite alternate;
+}
+.tc-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+@keyframes photoPhase1 {
+  0%   { opacity: 0;    filter: blur(22px) brightness(0.18) saturate(0.4); transform: scale(1.12); }
+  30%  { opacity: 0.35; filter: blur(10px) brightness(0.35) saturate(0.6); transform: scale(1.07); }
+  65%  { opacity: 0.72; filter: blur(4px)  brightness(0.65) saturate(0.85); transform: scale(1.03); }
+  100% { opacity: 1;    filter: blur(0)    brightness(0.82) saturate(1.05); transform: scale(1); }
+}
+@keyframes photoBreath {
+  from { transform: scale(1) translateY(0); }
+  to   { transform: scale(1.02) translateY(-8px); }
+}
+
+.tc-bars { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.tc-bar-top, .tc-bar-bottom {
+  position: absolute;
+  left: 0; right: 0;
+  background: var(--dark);
+}
+.tc-bar-top {
+  top: 0;
+  animation: barTopReveal 2.2s var(--ease-silk) 0.1s forwards;
+}
+.tc-bar-bottom {
+  bottom: 0;
+  animation: barBottomReveal 2.2s var(--ease-silk) 0.1s forwards;
+}
+@keyframes barTopReveal    { 0% { height:50vh } 100% { height: clamp(40px, 7vh, 80px) } }
+@keyframes barBottomReveal { 0% { height:50vh } 100% { height: clamp(40px, 7vh, 80px) } }
+
+.tc-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background:
+    linear-gradient(to top,  rgba(5,3,2,0.92) 0%, rgba(5,3,2,0.55) 22%, transparent 45%),
+    linear-gradient(to bottom, rgba(5,3,2,0.75) 0%, transparent 30%),
+    linear-gradient(to right, rgba(10,14,20,0.65) 0%, rgba(10,14,20,0.20) 25%, transparent 50%),
+    radial-gradient(ellipse 60% 80% at 78% 30%, rgba(180,90,25,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(5,3,2,0.65) 100%);
+  opacity: 0;
+  animation: vignetteIn 3s var(--ease-silk) 0.5s forwards;
+}
+@keyframes vignetteIn { from { opacity: 0; } to { opacity: 1; } }
+
+.tc-glow-warm {
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  width: clamp(280px, 55vw, 700px);
+  height: clamp(280px, 55vw, 700px);
+  border-radius: 50%;
+  top: -8%; right: -8%;
+  background: radial-gradient(circle at center,
+    rgba(195,105,30,0.16) 0%, rgba(160,70,15,0.09) 40%, transparent 72%);
+  filter: blur(2px);
+  opacity: 0;
+  animation: glowWarm 2.5s var(--ease-silk) 1.8s forwards, glowPulse 5s ease-in-out 4.5s infinite;
+}
+@keyframes glowWarm  { from { opacity:0; transform:scale(0.85); } to { opacity:1; transform:scale(1); } }
+@keyframes glowPulse { 0%,100%{opacity:0.85;transform:scale(1);} 50%{opacity:1;transform:scale(1.06);} }
+
+.tc-leak {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+  right: clamp(18%, 24%, 30%);
+  top: 0; bottom: 0;
+  width: clamp(1px, 0.15vw, 2px);
+  background: linear-gradient(to bottom,
+    transparent 0%, transparent 8%,
+    rgba(245,220,180,0.0) 14%, rgba(245,220,180,0.62) 30%,
+    rgba(230,200,150,0.82) 42%, rgba(245,220,180,0.45) 56%,
+    rgba(200,160,100,0.15) 70%, transparent 88%, transparent 100%);
+  filter: blur(0.4px);
+  opacity: 0;
+  animation: leakIn 2s var(--ease-silk) 2.4s forwards, leakBreath 4.5s ease-in-out 4.5s infinite;
+}
+.tc-leak-halo {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+  right: calc(clamp(18%, 24%, 30%) - clamp(50px, 8vw, 100px));
+  top: calc(38% - clamp(50px, 8vw, 100px));
+  width: clamp(100px, 16vw, 200px);
+  height: clamp(100px, 16vw, 200px);
+  border-radius: 50%;
+  background: radial-gradient(circle at center,
+    rgba(245,220,180,0.20) 0%, rgba(220,185,130,0.10) 40%, transparent 70%);
+  filter: blur(clamp(8px, 1.5vw, 18px));
+  opacity: 0;
+  animation: leakIn 2.5s var(--ease-silk) 2.5s forwards, leakBreath 4.5s ease-in-out 4.6s infinite;
+}
+@keyframes leakIn    { from{opacity:0;transform:scaleY(0.7) translateY(10px);} to{opacity:1;transform:scaleY(1) translateY(0);} }
+@keyframes leakBreath{ 0%,100%{opacity:1;} 50%{opacity:0.55;} }
+
+.tc-content {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-rows: 1fr auto 1fr;
+  pointer-events: none;
+}
+
+.tc-top {
+  grid-row: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: clamp(16px,3.5vh,28px) clamp(24px,5vw,64px) clamp(12px,2vh,20px);
+}
+.tc-brand-name {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 100;
+  font-size: clamp(9px, 1vw, 13px);
+  letter-spacing: 0.52em;
+  color: rgba(242,227,208,0.55);
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateX(-8px);
+  animation: slideRight 1.2s var(--ease-silk) 3.8s forwards;
+}
+.tc-brand-tag {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 100;
+  font-size: clamp(8px, 0.9vw, 11px);
+  letter-spacing: 0.38em;
+  color: rgba(200,169,126,0.45);
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateX(8px);
+  animation: slideLeft 1.2s var(--ease-silk) 3.9s forwards;
+}
+@keyframes slideRight { from{opacity:0;transform:translateX(-8px);} to{opacity:1;transform:translateX(0);} }
+@keyframes slideLeft  { from{opacity:0;transform:translateX(8px);}  to{opacity:1;transform:translateX(0);} }
+
+.tc-center {
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 clamp(24px, 6vw, 80px);
+}
+.tc-eyebrow {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 200;
+  font-size: clamp(8px, 0.95vw, 12px);
+  letter-spacing: 0.55em;
+  color: rgba(200,169,126,0.7);
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: riseUp 1.4s var(--ease-silk) 3.2s forwards;
+  margin-bottom: clamp(14px, 2.5vh, 22px);
+}
+.tc-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 200;
+  font-size: clamp(48px, 9.5vw, 130px);
+  letter-spacing: 0.22em;
+  color: var(--cream);
+  text-transform: uppercase;
+  line-height: 0.92;
+  opacity: 0;
+  transform: translateY(24px);
+  animation: riseUpName 1.8s var(--ease-silk) 3.5s forwards;
+  text-shadow: 0 2px 40px rgba(200,169,126,0.12), 0 0 80px rgba(180,90,25,0.06);
+}
+.tc-rule {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 24px);
+  margin: clamp(18px,3.2vh,32px) 0 clamp(16px,2.8vh,28px);
+  opacity: 0;
+  animation: ruleReveal 1.2s var(--ease-silk) 4.4s forwards;
+  width: clamp(180px, 40vw, 480px);
+}
+.tc-rule-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right,
+    transparent, rgba(200,169,126,0.55) 30%,
+    rgba(242,227,208,0.75), rgba(200,169,126,0.55) 70%, transparent);
+}
+.tc-rule-diamond {
+  width: 4px; height: 4px;
+  border: 1px solid rgba(200,169,126,0.65);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+@keyframes ruleReveal { from{opacity:0;transform:scaleX(0.3);} to{opacity:1;transform:scaleX(1);} }
+
+.tc-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 200;
+  font-style: italic;
+  font-size: clamp(17px, 2.8vw, 34px);
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  color: rgba(230,210,185,0.82);
+  opacity: 0;
+  transform: translateY(14px);
+  animation: riseUp 1.4s var(--ease-silk) 4.6s forwards;
+  max-width: clamp(260px, 55vw, 640px);
+}
+.tc-tagline em { color: rgba(185,50,50,0.90); font-style: italic; }
+
+@keyframes riseUp     { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
+@keyframes riseUpName {
+  from{opacity:0;transform:translateY(24px);letter-spacing:0.38em;}
+  to  {opacity:1;transform:translateY(0);   letter-spacing:0.22em;}
+}
+
+.tc-bottom {
+  grid-row: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: clamp(20px, 4.5vh, 44px);
+  gap: clamp(6px, 1.2vh, 10px);
+}
+.tc-scroll-label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 200;
+  font-size: clamp(7px, 0.85vw, 10px);
+  letter-spacing: 0.48em;
+  color: rgba(200,169,126,0.45);
+  text-transform: uppercase;
+  opacity: 0;
+  animation: riseUp 1s var(--ease-silk) 5.6s forwards;
+}
+.tc-scroll-line {
+  width: 1px;
+  height: 0;
+  background: linear-gradient(to bottom, rgba(200,169,126,0.55), transparent);
+  animation: scrollDrop 2.2s var(--ease-silk) 5.8s infinite;
+}
+@keyframes scrollDrop {
+  0%  { height:0; opacity:0; transform-origin:top; }
+  35% { height:clamp(28px,4vh,44px); opacity:1; }
+  65% { height:clamp(28px,4vh,44px); opacity:1; transform-origin:bottom; }
+  100%{ height:0; opacity:0; }
+}
+
+.tc-progress {
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 1px; width: 0;
+  background: linear-gradient(to right,
+    transparent, rgba(122,0,0,0.7) 15%,
+    rgba(200,169,126,0.85) 50%, rgba(122,0,0,0.7) 85%, transparent);
+  z-index: 20;
+  animation: progressBar 5.8s cubic-bezier(0.25,0.1,0.25,1) 0.2s forwards;
+}
+@keyframes progressBar {
+  0%  { width:0%;   opacity:1; }
+  80% { width:100%; opacity:1; }
+  95% { width:100%; opacity:1; }
+  100%{ width:100%; opacity:0; }
+}
+
+.tc-skip {
+  position: absolute;
+  top: clamp(14px,2.5vh,24px);
+  right: clamp(20px,3.5vw,48px);
+  z-index: 30;
+  background: none; border: none; cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 200;
+  font-size: clamp(8px, 0.85vw, 10px);
+  letter-spacing: 0.4em;
+  color: rgba(200,169,126,0.30);
+  text-transform: uppercase;
+  pointer-events: all;
+  opacity: 0;
+  transition: color 0.4s ease;
+  animation: riseUp 0.8s ease 4.2s forwards;
+  padding: 8px 4px;
+  -webkit-appearance: none;
+}
+.tc-skip:hover { color: rgba(242,227,208,0.65); }
+
+#tc-intro.tc--exit {
+  animation: introExit 1.6s var(--ease-expo) forwards;
+  pointer-events: none;
+}
+@keyframes introExit {
+  0%  { opacity:1; transform:scale(1);     filter:blur(0px);  }
+  35% { opacity:1; transform:scale(1.025); filter:blur(0px);  }
+  100%{ opacity:0; transform:scale(1.065); filter:blur(12px); }
+}
+
+/* — MOBILE — */
+@media (max-width: 480px) {
+  .tc-photo img { object-position: 60% 15%; }
+  .tc-name { letter-spacing: 0.16em; }
+  @keyframes riseUpName {
+    from{opacity:0;transform:translateY(20px);letter-spacing:0.28em;}
+    to  {opacity:1;transform:translateY(0);   letter-spacing:0.16em;}
+  }
+  .tc-leak { right: 18%; }
+  .tc-glow-warm { top:-15%; right:-20%; }
+}
+@media (max-height:500px) and (orientation:landscape) {
+  .tc-name    { font-size: clamp(32px,7vw,60px); }
+  .tc-tagline { font-size: clamp(14px,2.2vw,22px); }
+  .tc-rule    { margin: 10px 0 8px; }
+}
+@media (min-width:2000px) {
+  .tc-name { font-size: clamp(100px,6.5vw,160px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after {
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+  }
+}
+</style>
+
+<!-- 3. HTML — cole antes de </body> -->
+<div id="tc-intro" role="presentation" aria-hidden="true">
+
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="tc-photo">
+    <!-- ⚠️ SUBSTITUA pelo caminho real da foto -->
+    <img src="URL_DA_FOTO_AQUI" alt="" draggable="false" fetchpriority="high">
+  </div>
+
+  <div class="tc-bars" aria-hidden="true">
+    <div class="tc-bar-top"></div>
+    <div class="tc-bar-bottom"></div>
+  </div>
+
+  <div class="tc-vignette" aria-hidden="true"></div>
+  <div class="tc-glow-warm" aria-hidden="true"></div>
+  <div class="tc-leak" aria-hidden="true"></div>
+  <div class="tc-leak-halo" aria-hidden="true"></div>
+
+  <div class="tc-content">
+    <div class="tc-top">
+      <span class="tc-brand-name">Thais Correa</span>
+      <span class="tc-brand-tag">2025</span>
+    </div>
+    <div class="tc-center">
+      <p class="tc-eyebrow">Criadora de Conteúdo</p>
+      <h1 class="tc-name">Thais<br>Correa</h1>
+      <div class="tc-rule" aria-hidden="true">
+        <div class="tc-rule-line"></div>
+        <div class="tc-rule-diamond"></div>
+        <div class="tc-rule-line"></div>
+      </div>
+      <p class="tc-tagline">Transformo ideias em histórias<br>que <em>geram conexão.</em></p>
+    </div>
+    <div class="tc-bottom">
+      <span class="tc-scroll-label">Scroll</span>
+      <div class="tc-scroll-line" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <div class="tc-progress" aria-hidden="true"></div>
+  <button class="tc-skip" id="tc-skip" aria-label="Pular introdução">Pular</button>
+</div>
+
+<!-- 4. SCRIPT — cole logo após o div#tc-intro -->
+<script>
+(function () {
+  'use strict';
+  var CFG = { autoExit: 7000, exitDuration: 1600 };
+  var intro = document.getElementById('tc-intro');
+  var skip  = document.getElementById('tc-skip');
+  if (!intro) return;
+
+  document.documentElement.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden';
+
+  var done = false;
+  function exit() {
+    if (done) return;
+    done = true;
+    intro.classList.add('tc--exit');
+    setTimeout(function () {
+      intro.style.display = 'none';
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      window.dispatchEvent(new CustomEvent('tcIntroComplete'));
+    }, CFG.exitDuration);
+  }
+
+  var timer = setTimeout(exit, CFG.autoExit);
+  function early() { clearTimeout(timer); exit(); }
+
+  skip.addEventListener('click', function(e) { e.stopPropagation(); early(); });
+  document.addEventListener('keydown', function h(e) {
+    if (e.key==='Escape'||e.key===' '||e.key==='Enter') {
+      document.removeEventListener('keydown', h); early();
+    }
+  });
+  setTimeout(function() {
+    if (!done) intro.addEventListener('click', early, { once: true });
+  }, 3000);
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    clearTimeout(timer); setTimeout(exit, 300);
+  }
+}());
+</script>
